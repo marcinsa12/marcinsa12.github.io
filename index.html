@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>SpaceX Launches mini lookthru</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuex@3.0.1/dist/vuex.js"></script>
+    <link rel="stylesheet" href="styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Space+Mono:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600,900" rel="stylesheet">
+  </head>
+  <body>
+
+    <div id="appBuild" class="resultsPrinter">
+      <h1>List of last 10 SpaceX Launches - Past and upcoming</h1>
+      <ol class="listOfLaunches">
+        <launch v-for="(launch, index) in eachLaunch"
+        v-bind:content="launch"
+        v-bind:key="launch.flight_number"></launch>
+      </ol>
+      <div class="modalWrapper">
+        <div class="modalContent">
+          <detailer
+          v-for="rocket in rockets"
+          v-bind:content="selectedLaunch[0]"
+          v-bind:content2="rockets[0]"><detailer>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

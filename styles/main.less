@@ -1,0 +1,67 @@
+h1{
+  width: 1170px;
+  margin: 0 auto;
+  text-align: center;
+  font-family: 'Space Mono', monospace;
+}
+.listOfLaunches{
+  width: 1170px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  .editableDiv{
+    margin:15px;
+    ol{
+      list-style: none;
+      font-family: 'Raleway', sans-serif;
+
+    }
+  }
+}
+
+.modalWrapper{
+  display: none;
+  position: absolute;
+  top:0;
+  left: 0;
+  background-color: rgba(0,0,0, 0.2);
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  .modalContent{
+    padding: 25px;
+    width: 1000px;
+    height: 800px;
+    margin: 0 auto;
+    margin-top: 50px;
+    background: white;
+    position: relative;
+    button{
+      z-index: 10000;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    ol{
+      list-style: none;
+      z-index: 500;
+      li{
+        margin:25px;
+        max-width: 450px;
+        font-family: 'Raleway', sans-serif;
+        font-weight: 600;
+      }
+    }
+    img{
+      z-index: 400;
+      opacity: 0.2;
+      position: absolute;
+      height: 100%;
+      left:50%;
+      top:0;
+      transform:translateX(-50%);
+    }
+  }
+}
