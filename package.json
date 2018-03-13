@@ -1,0 +1,7 @@
+{
+    "name": "PrivateFly_app",
+    "version": "0.0.2",
+    "dependencies": {
+        "vue": "^2.5.15"
+    }
+}

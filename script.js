@@ -5,7 +5,7 @@ fetch(myLittleUrl)
 })
 .then(function(myJson) {
   myJson.forEach( elem =>{
-    if(elem.launch_date_unix>Math.floor(Date.now()/1000)) {
+    if(elem.launch_date_unix > Math.floor( Date.now() / 1000)) {
       elem.details = 'This is an upcoming Start! Watch it live!'
     }
     if(elem.flight_number> myJson.length-10){
@@ -56,22 +56,24 @@ const launchLine = Vue.component('launch',{
 
 const moreDetails = Vue.component('detailer',{
   props:['content','content2'],
-  template:`<ol>
-              <li>Place of the launch was {{content.launch_site.site_name_long}}</li>
-              <li>{{content.details}}</li>
-              <li>Height {{content2.height.meters}} meters, Mass {{content2.mass.kg}}kg</li>
-              <li>This rocket has {{content2.stages}} stages</li>
-              <li>Rocket used for that launch was {{content2.name}} , ID: {{content2.id}}</li>
-              <li>{{content2.description}}</li>
+  template:`<div>
+              <ol>
+                <li>Place of the launch was {{content.launch_site.site_name_long}}</li>
+                <li>{{content.details}}</li>
+                <li>Height {{content2.height.meters}} meters, Mass {{content2.mass.kg}}kg</li>
+                <li>This rocket has {{content2.stages}} stages</li>
+                <li>Rocket used for that launch was {{content2.name}},<br> ID: {{content2.id}}</li>
+                <li>{{content2.description}}</li>
+              </ol>
               <img v-if="photo()" :src="photo()" ></img>
               <button v-on:click="disableModal">X</button>
-            </ol>`,
+            </div>`,
   methods:{
     photo: function(){return this.content.links.mission_patch},
     disableModal: function(){
       document.querySelector('.modalWrapper').style.display='none';
-      ourRocket.length = 0;
-      launchClicked.length = 0;
+      ourRocket.splice(0);
+      launchClicked.splice(0);
     }
   },
 
