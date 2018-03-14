@@ -27,9 +27,16 @@
           .then(function(response) {
             return response.json();
           })
+          .catch(function(error) {
+            throw new Error(error)
+          })
           .then(function(myJson) {
             myApp.rockets[myJson.id] = myJson;
             openModal();
+          })
+          .catch(function(error){
+            console.log(error)
+            myApp.failedFatched = true;
           });
         } else {
           openModal();
@@ -84,13 +91,17 @@
       rockets: {},
       accessLaunchesURL: 'https://api.spacexdata.com/v2/launches/all',
       rocketsURL: 'https://api.spacexdata.com/v2/rockets/',
-      isModalOpen: false
+      isModalOpen: false,
+      failedFatched: false
     },
   })
 
   fetch(myApp.accessLaunchesURL)
   .then(function(response){
     return response.json();
+  })
+  .catch(function(error) {
+    throw new Error(error)
   })
   .then(function(myJson) {
     const flightsToDisplay = myJson.filter(function(flight) {
@@ -100,7 +111,11 @@
       accumulator[item.flight_number] = item;
       return accumulator
     }, {})
-  });
+  })
+  .catch(function(error){
+    console.log(error)
+    myApp.failedFatched = true;
+  })
 
   global.myApp = myApp;
 })(window);
