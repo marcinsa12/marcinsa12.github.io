@@ -20,6 +20,10 @@ li {
   margin: 10px;
 }
 
+.results {
+  position: relative;
+}
+
 .launches {
   margin: 0 auto;
   display: flex;
@@ -91,7 +95,7 @@ li {
 .modal-close {
   z-index: 103;
   border: 1px solid #000;
-  border-radius: 30px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -132,4 +136,24 @@ li {
   left: 50%;
   background: white;
   transform: translate(-50%);
+}
+
+.spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border: 12px solid #fff;
+    border-top: 12px solid #f3bfc0;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spinning 1500ms linear infinite;
+}
+
+@keyframes spinning {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
