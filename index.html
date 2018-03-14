@@ -9,18 +9,6 @@
   <body>
 
     <div id="appBuild" class="resultsPrinter">
-      <h1>List of last 10 SpaceX Launches - Past and upcoming</h1>
-      <ul class="launches">
-        <launch
-          v-for="(launch, index) in launches"
-          v-bind:content="launch"
-          v-bind:key="launch.flight_number">
-        </launch>
-      </ul>
-      <detailer
-        v-bind:flight="currentLaunch"
-        v-bind:rocket="currentRocket">
-      <detailer>
     </div>
 
     <script src="script.js"></script>

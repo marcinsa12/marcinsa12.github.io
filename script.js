@@ -1,19 +1,19 @@
 (function(global){
 
   const launchLine = Vue.component('launch',{
-    props:['content'],
-    template:`<li class="flight">
+    props: ['content'],
+    template: `<li class="flight">
                 <ul class="flight-list">
                   <li>Flight number: {{content.flight_number}}</li>
                   <li>Launch Time ZULU: {{content.launch_date_utc}}</li>
                   <li>Rocket Name: {{content.rocket.rocket_name}}</li>
                   <li>{{ (content.launch_date_unix > Math.floor(Date.now()/1000) ? 'Flight is planned to launch' : 'Its already in the skies')}}</li>
-                  <li v-if="succesfullLaunch()"> Was the launch succes? {{succesfullLaunch()}}</li>
+                  <li v-if="succesfullLaunch"> Was the launch succes? {{succesfullLaunch}}</li>
                 </ul>
                 <button class="flight-btn" v-on:click="showMore()">More</button>
               </li>`,
 
-    methods:{
+    methods: {
       showMore: function(){
         const rocketId = this._props.content.rocket.rocket_id;
         const flightId = this._props.content.flight_number;
@@ -35,7 +35,9 @@
           openModal();
         }
       },
+    },
 
+    computed: {
       succesfullLaunch: function() {
         const isFlightDeparted = this.content.launch_date_unix < Math.floor(Date.now()/1000);
         if (isFlightDeparted) {
@@ -46,8 +48,8 @@
   })
 
   const moreDetails = Vue.component('detailer',{
-    props:['flight','rocket'],
-    template:`<div v-if="shouldShowModal()" class="modal">
+    props: ['flight','rocket'],
+    template: `<div v-if="shouldShowModal()" v-on:click="disableModal($event)" class="modal">
                 <div class="modal-content">
                   <ul class="modal-list">
                     <li>Place of the launch was {{flight.launch_site.site_name_long}}</li>
@@ -57,21 +59,26 @@
                     <li>Rocket used for that launch was {{rocket.name}},<br> ID: {{rocket.id}}</li>
                     <li>{{rocket.description}}</li>
                   </ul>
-                  <img class="modal-background" v-if="photo()" :src="photo()" alt="Mission Patch"></img>
-                  <span class="modal-close" v-on:click="disableModal">&times;</span>
+                  <img class="modal-background" v-if="photo" :src="photo" alt="Mission Patch"></img>
+                  <span class="modal-close">&times;</span>
                 </div>
               </div>`,
-    methods:{
-      photo: function() {
-        return this.flight.links.mission_patch
-      },
-      disableModal: function() {
-        myApp.isModalOpen = false;
+    methods: {
+      disableModal: function(e) {
+        if(e.target.classList.contains('modal-close') || e.target.classList.contains('modal')){
+          myApp.isModalOpen = false;
+        }
       },
       shouldShowModal: function() {
         return myApp && myApp.isModalOpen && this.flight && this.rocket;
       },
     },
+
+    computed:{
+      photo: function() {
+        return this.flight.links.mission_patch
+      },
+    }
   })
 
   var myApp = new Vue ({
@@ -83,9 +90,19 @@
       launches: {},
       rockets: {},
       accessLaunchesURL: 'https://api.spacexdata.com/v2/launches/all',
-      rocketsURL: 'https://api.spacexdata.com/v2/rockets/',
-      isModalOpen: false
+      rocketsURL: 'https://api.spacssexdata.com/v2/rockets/',
+      isModalOpen: false,
     },
+    template: `<div>
+                <h1>List of last 10 SpaceX Launches - Past and upcoming</h1>
+                <ul class="launches">
+                  <launch v-for="(launch, index) in launches" v-bind:content="launch" v-bind:key="launch.flight_number">
+                  </launch>
+                </ul>
+                <detailer v-if="isModalOpen" v-bind:flight="currentLaunch" v-bind:rocket="currentRocket">
+                </detailer>
+              <div>`,
+
   })
 
   fetch(myApp.accessLaunchesURL)
@@ -94,7 +111,7 @@
   })
   .then(function(myJson) {
     const flightsToDisplay = myJson.filter(function(flight) {
-      return flight.flight_number > myJson.length - 10
+      return flight.flight_number > myJson.length - 10;
     });
     myApp.launches = flightsToDisplay.reduce(function(accumulator, item) {
       accumulator[item.flight_number] = item;
