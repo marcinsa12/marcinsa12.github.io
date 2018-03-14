@@ -27,9 +27,16 @@
           .then(function(response) {
             return response.json();
           })
+          .catch(function(error) {
+            throw new Error(error)
+          })
           .then(function(myJson) {
             myApp.rockets[myJson.id] = myJson;
             openModal();
+          })
+          .catch(function(error){
+            console.log(error)
+            myApp.failedFetched = true;
           });
         } else {
           openModal();
@@ -90,11 +97,14 @@
       launches: {},
       rockets: {},
       accessLaunchesURL: 'https://api.spacexdata.com/v2/launches/all',
-      rocketsURL: 'https://api.spacssexdata.com/v2/rockets/',
+      rocketsURL: 'https://api.spacexdata.com/v2/rockets/',
       isModalOpen: false,
+      failedFetched: false
     },
     template: `<div>
                 <h1>List of last 10 SpaceX Launches - Past and upcoming</h1>
+                <div v-if="failedFetched" class="errorMsg">Couldn't reach json data. Please check your internet connection and try again.
+                </div>
                 <ul class="launches">
                   <launch v-for="(launch, index) in launches" v-bind:content="launch" v-bind:key="launch.flight_number">
                   </launch>
@@ -109,15 +119,22 @@
   .then(function(response){
     return response.json();
   })
+  .catch(function(error) {
+    throw new Error(error)
+  })
   .then(function(myJson) {
     const flightsToDisplay = myJson.filter(function(flight) {
-      return flight.flight_number > myJson.length - 10;
+      return flight.flight_number > myJson.length - 10
     });
     myApp.launches = flightsToDisplay.reduce(function(accumulator, item) {
       accumulator[item.flight_number] = item;
       return accumulator
     }, {})
-  });
+  })
+  .catch(function(error){
+    console.log(error)
+    myApp.failedFetched = true;
+  })
 
   global.myApp = myApp;
 })(window);

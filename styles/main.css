@@ -5,17 +5,21 @@ body {
   font-size: 14px;
   line-height: 1.4;
 }
+
 h1 {
   text-align: center;
   font-family: Arial, sans-serif;
 }
+
 ul {
   padding-left: 0;
   list-style: none;
 }
+
 li {
   margin: 10px;
 }
+
 .launches {
   margin: 0 auto;
   display: flex;
@@ -23,12 +27,14 @@ li {
   justify-content: center;
   flex-wrap: wrap;
 }
+
 .flight {
   margin: 5px;
   border: 2px solid #f3bfc0;
   border-radius: 15px;
   padding: 15px;
 }
+
 .flight-btn {
   background: #fff;
   border: 1px solid #f3bfc0;
@@ -39,12 +45,15 @@ li {
   cursor: pointer;
   outline: none;
 }
+
 .flight-btn:hover {
   background: #f3bfc0;
 }
+
 .flight-btn:active {
   background: #f18f91;
 }
+
 .modal {
   display: flex;
   align-items: center;
@@ -57,8 +66,9 @@ li {
   z-index: 101;
   position: fixed;
 }
+
 .modal-background {
-  z-index: 400;
+  z-index: 102;
   opacity: 0.15;
   position: absolute;
   height: 100%;
@@ -66,6 +76,7 @@ li {
   top: 0;
   transform: translateX(-50%);
 }
+
 .modal-content {
   padding: 25px;
   width: 500px;
@@ -76,7 +87,9 @@ li {
   position: relative;
   border-radius: 15px;
 }
+
 .modal-close {
+  z-index: 103;
   border: 1px solid #000;
   border-radius: 30px;
   display: flex;
@@ -94,15 +107,29 @@ li {
   color: #000;
   cursor: pointer;
 }
+
 .modal-close:hover {
   background-color: #e0dede;
 }
+
 .modal-close:active {
   background-color: #ababab;
 }
+
 .modal-list {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
+}
+
+.errorMsg {
+  z-index: 103;
+  position: fixed;
+  border: 1px solid red;
+  box-shadow: 2px 3px 4px 6px #888888;
+  top: 50%;
+  left: 50%;
+  background: white;
+  transform: translate(-50%);
 }
